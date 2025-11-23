@@ -38,8 +38,12 @@ struct MoviesListView: View {
         .searchable(text: $searchText)
         .searchSuggestions {
             if !searchText.isEmpty {
-                ForEach(viewModel.filteredMovies(searchText: searchText), id: \.id) { suggestion in
-                    MovieSuggestionRow(movie: suggestion)
+                ForEach(viewModel.filteredMovies(searchText: searchText), id: \.id) { movie in
+                    NavigationLink {
+                        viewModel.coordinator?.view(for: .movieDetails(movie: movie))
+                    } label: {
+                        MovieRow(movie: movie)
+                    }
                 }
             }
         }
